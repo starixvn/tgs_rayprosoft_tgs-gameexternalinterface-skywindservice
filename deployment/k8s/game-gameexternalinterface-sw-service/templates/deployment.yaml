@@ -37,7 +37,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: OTEL_SERVICE_NAME
-              value: game-gameexternalinterface-sw-service({{ .Release.Namespace }})
+              value: Game-GameExternalInterface-Skywind-Service({{ .Release.Namespace }})
             - name: NODE_IP
               valueFrom:
                 fieldRef:
@@ -47,25 +47,11 @@ spec:
                 secretKeyRef:
                   name: tgs-connections
                   key: nats
-            - name: ConnectionStrings__Mongo
-              valueFrom:
-                secretKeyRef:
-                  name: tgs-connections
-                  key: mongo-gameprovider
-            - name: ConnectionStrings__Redis
-              valueFrom:
-                secretKeyRef:
-                  name: tgs-connections
-                  key: redis
           volumeMounts:
             - mountPath: /config/appsettings.json
               name: appsettings
               readOnly: true
               subPath: appsettings.json
-            - mountPath: /etc/ssl/certs/rds-combined-ca-bundle.pem
-              name: rds-combined-ca-bundle
-              readOnly: true
-              subPath: rds-combined-ca-bundle.pem
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
@@ -121,9 +107,6 @@ spec:
         - name: appsettings
           configMap:
             name: configmap-{{ include "game-gameexternalinterface-sw-service.fullname" . }}
-        - name: rds-combined-ca-bundle
-          secret:
-            secretName: rds-combined-ca-bundle
         - name: diagvol
           emptyDir: {}
         - name: dumpsvol

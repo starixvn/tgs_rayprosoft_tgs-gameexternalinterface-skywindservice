@@ -10,6 +10,4 @@ public record ValidateTicketRequestViewModel
 	public string MerchId { get; set; } = default!;
 	[JsonPropertyName("merch_pwd")]
 	public string MerchPwd { get; set; } = default!;
-	[JsonPropertyName("ip")]
-	public string Ip { get; set; } = default!;
 }

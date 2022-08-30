@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Tgs.GameToken.Client;
-using Tgs.GameExternalInterface.SkywindService.ViewModels;
-using Tgs.GameExternalInterface.SkywindService.Core;
 using Tgs.GameExternalInterface.SkywindService.Common.Protos;
+using Tgs.GameExternalInterface.SkywindService.Core;
+using Tgs.GameExternalInterface.SkywindService.ViewModels;
+using Tgs.GameToken.Client;
 
 namespace Tgs.GameExternalInterface.SkywindService.Attributes;
 
@@ -32,9 +32,13 @@ public class ValidateTicketAuthorizationFilter : IAsyncAuthorizationFilter
 
 		_logger.LogDebug("LogOn:{logOn} Path:{path}", DateTime.UtcNow.ToString("O"), pathString);
 
-		if (!pathString.HasValue
-			|| !pathString.Value.Contains("api/validate_ticket", StringComparison.InvariantCultureIgnoreCase)
-			|| !pathString.Value.Contains("api/validate_terminal_ticket", StringComparison.InvariantCultureIgnoreCase))
+		if (!pathString.HasValue)
+		{
+			return;
+		}
+
+		if (!pathString.Value.Contains("api/validate_ticket", StringComparison.InvariantCultureIgnoreCase)
+			&& !pathString.Value.Contains("api/validate_terminal_ticket", StringComparison.InvariantCultureIgnoreCase))
 		{
 			return;
 		}

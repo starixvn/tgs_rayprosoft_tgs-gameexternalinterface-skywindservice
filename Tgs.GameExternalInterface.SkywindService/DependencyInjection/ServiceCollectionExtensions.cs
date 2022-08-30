@@ -1,6 +1,6 @@
-﻿using Tgs.GameProviders.QueryServer.Client;
+﻿using Tgs.GameExternalInterface.SkywindService.Core;
+using Tgs.GameProviders.QueryServer.Client;
 using Tgs.GameToken.Client;
-using Tgs.GameExternalInterface.SkywindService.Core;
 
 namespace Microsoft.Extensions.DependencyInjection;
 

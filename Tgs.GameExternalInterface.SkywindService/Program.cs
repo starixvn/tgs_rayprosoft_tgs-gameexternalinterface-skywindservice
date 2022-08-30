@@ -8,6 +8,7 @@ using OpenTelemetry.Instrumentation.AspNetCore;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Tgs.GameExternalInterface.SkywindService.Attributes;
+using Tgs.GameExternalInterface.SkywindService.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -134,5 +135,7 @@ app.MapControllers();
 app.MapProfileViewer();
 
 app.MapHealthChecks("/healthz");
+
+_ = app.UseCacheRegister();
 
 app.Run();

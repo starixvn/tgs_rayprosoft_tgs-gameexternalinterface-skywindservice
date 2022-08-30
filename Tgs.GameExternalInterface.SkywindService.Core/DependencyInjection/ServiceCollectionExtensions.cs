@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using Microsoft.AspNetCore.Authentication;
-using Tgs.GameProviders.QueryServer.Client;
 using Tgs.GameExternalInterface.SkywindService.Core;
+using Tgs.GameProviders.QueryServer.Client;
 using Tgs.GameToken.Client;
 using Tgs.GameToken.Clients.DependencyInjection;
 

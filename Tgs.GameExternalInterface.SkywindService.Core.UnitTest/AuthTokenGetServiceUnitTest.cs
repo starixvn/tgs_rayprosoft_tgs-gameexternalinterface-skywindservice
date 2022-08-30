@@ -1,8 +1,8 @@
 ﻿using System.Text.Json;
 using Microsoft.Extensions.Logging.Abstractions;
 using NSubstitute;
-using Tgs.GameToken.Client;
 using Tgs.GameExternalInterface.SkywindService.Core.ApplicationServices;
+using Tgs.GameToken.Client;
 
 namespace Tgs.GameExternalInterface.SkywindService.Core.UnitTest;
 
@@ -45,8 +45,6 @@ public class AuthTokenGetServiceUnitTest
 					playerCode: Arg.Is(gameAuthInfo.PlayerCode),
 					cancellationToken: default)
 				.Returns(sessionToken);
-
-		
 
 		var service = new ValidateTicketGetService(
 			fakeLogger,

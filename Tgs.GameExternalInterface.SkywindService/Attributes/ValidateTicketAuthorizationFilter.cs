@@ -49,12 +49,14 @@ public class ValidateTicketAuthorizationFilter : IAsyncAuthorizationFilter
 
 		_ = request.Body.Seek(0, SeekOrigin.Begin);
 
-		_logger.LogDebug("LogOn:{logOn} RequestViewModel:{requestViewModel}", DateTime.UtcNow.ToString("O"), requestViewModel);
+		_logger.LogInformation("LogOn:{logOn} RequestViewModel:{requestViewModel}", DateTime.UtcNow.ToString("O"), requestViewModel);
 
 		var configuration = await _gameQuery
 				.GetSkywindTransferConfigurationAsync()
 				.ConfigureAwait(false);
 
+		_logger.LogInformation("LogOn:{logOn} IsMerchId:{bool}", DateTime.UtcNow.ToString("O"), configuration.MerchId.Equals(requestViewModel.MerchId));
+		_logger.LogInformation("LogOn:{logOn} IsMerchPwd:{bool}", DateTime.UtcNow.ToString("O"), configuration.MerchPwd.Equals(requestViewModel.MerchPwd));
 		if (requestViewModel is not null &&
 			configuration.MerchId.Equals(requestViewModel.MerchId)
 			&& configuration.MerchPwd.Equals(requestViewModel.MerchPwd)

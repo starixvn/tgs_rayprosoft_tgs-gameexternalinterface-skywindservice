@@ -9,12 +9,12 @@ data:
     {
       "GameExternalInterfaceSettings": {
          "GameProviderCode": "SWTF",
-         "GameProviderCode": "SWTFConfiguration"
+         "GameProviderConfig": "SWTFConfiguration"
       },
       "GameExternalInterface": {
         "GameProvidersQueryServerClientBaseUrl": "http://game-gameprovider-queryserver/",
         "GameTokenClientBaseUrl": "http://game-token/"
-        }
+      }
     }
   monitor.settings.json: |
     {

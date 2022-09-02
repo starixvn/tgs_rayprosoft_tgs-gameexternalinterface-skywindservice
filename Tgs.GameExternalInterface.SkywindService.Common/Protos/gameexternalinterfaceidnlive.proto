@@ -1,14 +1,8 @@
 syntax = "proto3";
 
-import "phoenix/protobuf/guid.proto";
-import "phoenix/protobuf/decimal.proto";
-import "google/protobuf/timestamp.proto";
-
 option csharp_namespace = "Tgs.GameExternalInterface.SkywindService.Common.Protos";
 
 package gameexternalinterfaceskywindservicecommon;
-
-
 
 enum GameErrorCode{
     GAME_ERROR_CODE_NO_ERRORS = 0;

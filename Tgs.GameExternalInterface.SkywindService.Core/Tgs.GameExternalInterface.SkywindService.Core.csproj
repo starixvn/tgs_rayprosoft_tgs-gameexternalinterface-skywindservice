@@ -7,23 +7,22 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Models\**" />
+	  <EmbeddedResource Remove="Models\**" />
+	  <None Remove="Models\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Grpc.AspNetCore" Version="2.50.0" />
 		<PackageReference Include="Scrutor" Version="4.2.0" />
 		<PackageReference Include="System.Linq.Async" Version="6.0.1" />
 		<PackageReference Include="Tgs.GameProviders.QueryServer.Client" Version="0.0.16" />
 		<PackageReference Include="Tgs.GameToken.Client" Version="0.0.2" />
-		<PackageReference Include="Tgs.MessageQueue" Version="2.1.0" />
-		<PackageReference Include="Tgs.MessageQueue.MongoDB" Version="2.1.1" />
-		<PackageReference Include="Tgs.MessageQueue.Nats" Version="2.1.6" />
-		<PackageReference Include="TGS.ServiceUtility" Version="0.1.0" />
+		<PackageReference Include="TGS.ServiceUtility" Version="0.2.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Tgs.GameExternalInterface.SkywindService.Common\Tgs.GameExternalInterface.SkywindService.Common.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Folder Include="Models\" />
 	</ItemGroup>
 
 </Project>

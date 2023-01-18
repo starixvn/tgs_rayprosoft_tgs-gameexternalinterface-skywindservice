@@ -9,9 +9,9 @@ namespace Tgs.GameExternalInterface.SkywindService.Attributes;
 
 public class ValidateTicketAuthorizationFilter : IAsyncAuthorizationFilter
 {
-    private readonly ILogger<ValidateTicketAuthorizationFilter> _logger;
-    private readonly IGameTokenClient _gameTokenClient;
     private readonly IGameQuery _gameQuery;
+    private readonly IGameTokenClient _gameTokenClient;
+    private readonly ILogger<ValidateTicketAuthorizationFilter> _logger;
 
     public ValidateTicketAuthorizationFilter(
         ILogger<ValidateTicketAuthorizationFilter> logger,

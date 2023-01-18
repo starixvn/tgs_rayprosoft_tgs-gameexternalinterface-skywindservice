@@ -1,5 +1,5 @@
-﻿using Tgs.GameExternalInterface.SkywindService.Core;
-using Tgs.GameProviders.QueryServer.Client;
+﻿using Tgs.GameCommand.Client;
+using Tgs.GameExternalInterface.SkywindService.Core;
 using Tgs.GameToken.Client;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -9,14 +9,14 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddGameExternalInterfaceService(
         this IServiceCollection services,
         Action<GameExternalInterfaceSettingsOptions, IServiceProvider> gameIdnLiveOptions,
-        Action<GameProvidersQueryServerClientOptions, IServiceProvider> gameProvidersQueryServerClientOptions,
+        Action<GameCommandClientOptions, IServiceProvider> gameCommandClientOptions,
         Action<GameTokenClientOptions, IServiceProvider> gameTokenClientOptions
         )
         => services
             .AddMemoryCache()
             .AddGameExternalInterfaceCore(
-                gameIdnLiveOptions,
-                gameProvidersQueryServerClientOptions,
-                gameTokenClientOptions)
+                gameSkywindSettingsOptions: gameIdnLiveOptions,
+                gameCommandClientOptions: gameCommandClientOptions,
+                gameTokenClientOptions: gameTokenClientOptions)
             .AddGameExternalInterfaceRepository();
 }

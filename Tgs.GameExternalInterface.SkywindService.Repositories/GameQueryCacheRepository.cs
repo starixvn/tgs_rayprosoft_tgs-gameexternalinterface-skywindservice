@@ -8,10 +8,10 @@ namespace Tgs.GameExternalInterface.SkywindService.Repositories;
 
 public class GameQueryCacheRepository : IGameQuery
 {
+    private readonly GameExternalInterfaceSettingsOptions _gameExternalInterfaceSettings;
+    private readonly IGameQuery _gameQuery;
     private readonly ILogger<GameQueryCacheRepository> _logger;
     private readonly IMemoryCache _memoryCache;
-    private readonly IGameQuery _gameQuery;
-    private readonly GameExternalInterfaceSettingsOptions _gameExternalInterfaceSettings;
 
     public GameQueryCacheRepository(
         ILogger<GameQueryCacheRepository> logger,

@@ -12,7 +12,7 @@ data:
          "GameProviderConfig": "SWTFConfiguration"
       },
       "GameExternalInterface": {
-        "GameProvidersQueryServerClientBaseUrl": "http://game-gameprovider-queryserver/",
+        "GameCommandClientBaseUrl": "http://game-gamecommand/",
         "GameTokenClientBaseUrl": "http://game-token/"
       }
     }

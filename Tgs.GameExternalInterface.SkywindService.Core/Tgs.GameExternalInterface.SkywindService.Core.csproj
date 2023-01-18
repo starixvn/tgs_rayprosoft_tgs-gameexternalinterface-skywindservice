@@ -16,7 +16,7 @@
 		<PackageReference Include="Grpc.AspNetCore" Version="2.50.0" />
 		<PackageReference Include="Scrutor" Version="4.2.0" />
 		<PackageReference Include="System.Linq.Async" Version="6.0.1" />
-		<PackageReference Include="Tgs.GameProviders.QueryServer.Client" Version="0.0.16" />
+		<PackageReference Include="Tgs.GameCommand.Client" Version="0.0.5" />
 		<PackageReference Include="Tgs.GameToken.Client" Version="0.0.2" />
 		<PackageReference Include="TGS.ServiceUtility" Version="0.2.0" />
 	</ItemGroup>

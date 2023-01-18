@@ -1,4 +1,4 @@
-using System.Net.Mime;
+﻿using System.Net.Mime;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Mvc;
@@ -56,7 +56,7 @@ builder.Services.AddGameExternalInterfaceService(
     (options, sp) =>
     {
         var configuration = sp.GetRequiredService<IConfiguration>();
-        options.BaseUrl = configuration.GetValue<Uri>("GameExternalInterface:GameProvidersQueryServerClientBaseUrl");
+        options.BaseUrl = configuration.GetValue<Uri>("GameExternalInterface:GameCommandClientBaseUrl");
     },
     (options, sp) =>
     {
@@ -98,14 +98,24 @@ builder.Services
         .AddProfileViewExporter()
         .AddOtlpExporter())
     .AddProfileViewer()
-    .Configure<AspNetCoreInstrumentationOptions>(
-        options =>
-            options.Filter = httpContext => !httpContext.Request.Path.HasValue
+    .Configure<AspNetCoreInstrumentationOptions>(options =>
+    {
+        options.Filter = httpContext =>
+        {
+            return !httpContext.Request.Path.HasValue
                 || !httpContext.Request.Path.StartsWithSegments("/swagger")
                 && !httpContext.Request.Path.StartsWithSegments("/healthz")
                 && !httpContext.Request.Path.StartsWithSegments("/profiler/")
-                && !new[] { "html", "ico", "png", "jpg" }.Any(
-                    ext => httpContext.Request.Path.Value.EndsWith($".{ext}")));
+                && !httpContext.Request.Path.StartsWithSegments("/hangfire")
+                && !httpContext.Request.Path.StartsWithSegments("/metrics")
+                   && !new[] { "html", "ico", "png", "jpg" }.Any(
+                       ext => httpContext.Request.Path.Value.EndsWith($".{ext}"));
+        };
+    });
+
+builder.Services
+    .AddInterceptionService()
+    .AddServiceUtiltiyInterceptors();
 
 builder.Services
     .AddHealthChecks();

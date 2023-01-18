@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using Microsoft.AspNetCore.Authentication;
+using Tgs.GameCommand.Client;
 using Tgs.GameExternalInterface.SkywindService.Core;
-using Tgs.GameProviders.QueryServer.Client;
 using Tgs.GameToken.Client;
 using Tgs.GameToken.Clients.DependencyInjection;
 
@@ -12,7 +12,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddGameExternalInterfaceCore(
         this IServiceCollection services,
         Action<GameExternalInterfaceSettingsOptions, IServiceProvider> gameSkywindSettingsOptions,
-        Action<GameProvidersQueryServerClientOptions, IServiceProvider> gameProvidersQueryServerClientOptions,
+        Action<GameCommandClientOptions, IServiceProvider> gameCommandClientOptions,
         Action<GameTokenClientOptions, IServiceProvider> gameTokenClientOptions
         )
         => services
@@ -22,7 +22,7 @@ public static class ServiceCollectionExtensions
             .RegisterAllServiceUtilityTypes(
                 Assembly.GetExecutingAssembly(),
                 ServiceLifetime.Transient)
-            .AddGameProvidersQueryServerClient(gameProvidersQueryServerClientOptions)
+            .AddGameCommandClient(gameCommandClientOptions)
             .AddGameTokenClient(gameTokenClientOptions)
             .AddSingleton<ISystemClock, SystemClock>();
 }

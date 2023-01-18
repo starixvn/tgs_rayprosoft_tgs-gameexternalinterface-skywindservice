@@ -1,16 +1,16 @@
 ﻿using Microsoft.Extensions.Options;
-using Tgs.GameProviders.QueryServer.Client;
+using Tgs.GameCommand.Client;
 
 namespace Tgs.GameExternalInterface.SkywindService.Core;
 
 internal class GameQueryRepository : IGameQuery
 {
-    private readonly IGameProvidersQueryServerClient _client;
+    private readonly IGameCommandClient _client;
     private readonly GameExternalInterfaceSettingsOptions _gameExternalInterfaceSettings;
 
     public GameQueryRepository(
         IOptions<GameExternalInterfaceSettingsOptions> options,
-        IGameProvidersQueryServerClient client
+        IGameCommandClient client
         )
     {
         _gameExternalInterfaceSettings = options.Value;

@@ -42,9 +42,11 @@ internal class ValidateTicketGetService : IGetService<ValidateTicketQuery, Valid
         string sessionToken;
         try
         {
-            sessionToken = await _gameTokenClient.CreateTokenAsync(
-               playerCode: gameAuthInfo.PlayerCode,
-               cancellationToken: cancellationToken).ConfigureAwait(false);
+            sessionToken = await _gameTokenClient
+                .CreateTokenAsync(
+                playerCode: gameAuthInfo.PlayerCode,
+                cancellationToken: cancellationToken)
+                .ConfigureAwait(false);
         }
         catch (Exception ex)
         {

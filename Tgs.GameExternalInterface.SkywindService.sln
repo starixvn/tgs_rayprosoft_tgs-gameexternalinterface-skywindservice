@@ -3,13 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "方案項目", "方案項目", "{A69E071A-8EC4-4C7C-ABF6-F32AAA4FC6F7}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-		CodeMaid.config = CodeMaid.config
-		nuget.config = nuget.config
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgs.GameExternalInterface.SkywindService", "Tgs.GameExternalInterface.SkywindService\Tgs.GameExternalInterface.SkywindService.csproj", "{5D2A9160-5092-4BDD-B2C6-C8BAA668206E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgs.GameExternalInterface.SkywindService.Common", "Tgs.GameExternalInterface.SkywindService.Common\Tgs.GameExternalInterface.SkywindService.Common.csproj", "{83A60F36-CED9-429E-81E2-A31B73D9AC44}"
@@ -18,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgs.GameExternalInterface.S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgs.GameExternalInterface.SkywindService.Core.UnitTest", "Tgs.GameExternalInterface.SkywindService.Core.UnitTest\Tgs.GameExternalInterface.SkywindService.Core.UnitTest.csproj", "{DAAFB75D-B5DB-4331-AE01-51863E64BD58}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tgs.GameExternalInterface.SkywindService.Repositories", "Tgs.GameExternalInterface.SkywindService.Repositories\Tgs.GameExternalInterface.SkywindService.Repositories.csproj", "{39BC1D16-ECAF-4DC5-873B-B2140F4A317C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgs.GameExternalInterface.SkywindService.Repositories", "Tgs.GameExternalInterface.SkywindService.Repositories\Tgs.GameExternalInterface.SkywindService.Repositories.csproj", "{39BC1D16-ECAF-4DC5-873B-B2140F4A317C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

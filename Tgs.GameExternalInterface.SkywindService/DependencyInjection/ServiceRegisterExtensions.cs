@@ -2,7 +2,7 @@
 
 namespace Tgs.GameExternalInterface.SkywindService.DependencyInjection;
 
-public static class CacheRegisterExtensions
+public static class ServiceRegisterExtensions
 {
     public static async Task<WebApplication> UseCacheRegister(this WebApplication app)
     {

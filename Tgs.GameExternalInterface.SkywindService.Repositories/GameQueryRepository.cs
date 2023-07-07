@@ -1,7 +1,8 @@
 ﻿using Microsoft.Extensions.Options;
 using Tgs.GameCommand.Client;
+using Tgs.GameExternalInterface.SkywindService.Core;
 
-namespace Tgs.GameExternalInterface.SkywindService.Core;
+namespace Tgs.GameExternalInterface.SkywindService.Repositories;
 
 internal class GameQueryRepository : IGameQuery
 {
@@ -20,17 +21,18 @@ internal class GameQueryRepository : IGameQuery
     public async ValueTask<Guid> GetGameProviderIdAsync(
         CancellationToken cancellationToken = default)
         => await _client
-            .GameProviderGetGameProviderIdAsync(
-                _gameExternalInterfaceSettings.GameProviderCode,
-                cancellationToken)
-            .ConfigureAwait(false)
+        .GameProviderGetGameProviderIdAsync(
+            gameProviderCode: _gameExternalInterfaceSettings.GameProviderCode,
+            cancellationToken: cancellationToken)
+        .ConfigureAwait(false)
         ?? throw new Exception($"Game Provider does not exist.({_gameExternalInterfaceSettings.GameProviderCode})");
 
     public async ValueTask<SkywindTransferConfiguration> GetSkywindTransferConfigurationAsync(
         CancellationToken cancellationToken = default)
         => await _client
-            .SettingGetConfigurationAsync<SkywindTransferConfiguration>(
-                _gameExternalInterfaceSettings.GameProviderConfig,
-                cancellationToken).ConfigureAwait(false)
+        .SettingGetConfigurationAsync<SkywindTransferConfiguration>(
+            key: _gameExternalInterfaceSettings.GameProviderConfig,
+            cancellationToken: cancellationToken)
+        .ConfigureAwait(false)
         ?? throw new Exception($"This game product setting does not exist.({_gameExternalInterfaceSettings.GameProviderConfig})");
 }

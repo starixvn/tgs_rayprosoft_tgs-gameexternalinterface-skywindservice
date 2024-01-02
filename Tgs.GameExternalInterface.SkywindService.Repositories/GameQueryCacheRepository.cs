@@ -4,32 +4,23 @@ using Tgs.GameExternalInterface.SkywindService.Core;
 
 namespace Tgs.GameExternalInterface.SkywindService.Repositories;
 
-public class GameQueryCacheRepository : IGameQuery
+public class GameQueryCacheRepository(
+    IOptions<GameExternalInterfaceSettingsOptions> options,
+    IMemoryCache memoryCache,
+    IGameQuery gameQuery) : IGameQuery
 {
-    private readonly GameExternalInterfaceSettingsOptions _gameExternalInterfaceSettings;
-    private readonly IGameQuery _gameQuery;
-    private readonly IMemoryCache _memoryCache;
-
-    public GameQueryCacheRepository(
-        IOptions<GameExternalInterfaceSettingsOptions> options,
-        IMemoryCache memoryCache,
-        IGameQuery gameQuery)
-    {
-        _gameExternalInterfaceSettings = options.Value;
-        _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
-        _gameQuery = gameQuery ?? throw new ArgumentNullException(nameof(gameQuery));
-    }
+    private readonly GameExternalInterfaceSettingsOptions _gameExternalInterfaceSettings = options.Value;
 
     public async ValueTask<Guid> GetGameProviderIdAsync(
         CancellationToken cancellationToken = default)
     {
         var key = $"gp.gameexternalinterface:skywind:{_gameExternalInterfaceSettings.GameProviderCode}";
 
-        if (!_memoryCache.TryGetValue(key, out Guid gameProviderId))
+        if (!memoryCache.TryGetValue(key, out Guid gameProviderId))
         {
-            gameProviderId = await _gameQuery.GetGameProviderIdAsync(cancellationToken).ConfigureAwait(false);
+            gameProviderId = await gameQuery.GetGameProviderIdAsync(cancellationToken).ConfigureAwait(false);
 
-            return _memoryCache
+            return memoryCache
                 .Set(
                 key: key,
                 value: gameProviderId);
@@ -43,11 +34,11 @@ public class GameQueryCacheRepository : IGameQuery
     {
         var key = $"gp.gameexternalinterface:skywind:{_gameExternalInterfaceSettings.GameProviderConfig}";
 
-        if (!_memoryCache.TryGetValue(key, out SkywindTransferConfiguration? configuration))
+        if (!memoryCache.TryGetValue(key, out SkywindTransferConfiguration? configuration))
         {
-            configuration = await _gameQuery.GetSkywindTransferConfigurationAsync(cancellationToken).ConfigureAwait(false);
+            configuration = await gameQuery.GetSkywindTransferConfigurationAsync(cancellationToken).ConfigureAwait(false);
 
-            return _memoryCache
+            return memoryCache
                 .Set(
                 key: key,
                 value: configuration,

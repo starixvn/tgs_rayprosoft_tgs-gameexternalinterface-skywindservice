@@ -7,30 +7,18 @@ using Tgs.GameToken.Client;
 
 namespace Tgs.GameExternalInterface.SkywindService.Attributes;
 
-public class ValidateTicketAuthorizationFilter : IAsyncAuthorizationFilter
+public class ValidateTicketAuthorizationFilter(
+    ILogger<ValidateTicketAuthorizationFilter> logger,
+    IGameTokenClient gameTokenClient,
+    IGameQuery gameQuery) : IAsyncAuthorizationFilter
 {
-    private readonly IGameQuery _gameQuery;
-    private readonly IGameTokenClient _gameTokenClient;
-    private readonly ILogger<ValidateTicketAuthorizationFilter> _logger;
-
-    public ValidateTicketAuthorizationFilter(
-        ILogger<ValidateTicketAuthorizationFilter> logger,
-        IGameTokenClient gameTokenClient,
-        IGameQuery gameQuery
-        )
-    {
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _gameTokenClient = gameTokenClient ?? throw new ArgumentNullException(nameof(gameTokenClient));
-        _gameQuery = gameQuery ?? throw new ArgumentNullException(nameof(gameQuery));
-    }
-
     public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
     {
         var request = context.HttpContext.Request;
 
         var pathString = request.Path;
 
-        _logger.LogDebug("LogOn:{logOn} Path:{path}", DateTime.UtcNow.ToString("O"), pathString);
+        logger.LogDebug("LogOn:{logOn} Path:{path}", DateTime.UtcNow.ToString("O"), pathString);
 
         if (!pathString.HasValue)
         {
@@ -49,16 +37,16 @@ public class ValidateTicketAuthorizationFilter : IAsyncAuthorizationFilter
 
         _ = request.Body.Seek(0, SeekOrigin.Begin);
 
-        _logger.LogDebug("LogOn:{logOn} RequestViewModel:{requestViewModel}", DateTime.UtcNow.ToString("O"), requestViewModel);
+        logger.LogDebug("LogOn:{logOn} RequestViewModel:{requestViewModel}", DateTime.UtcNow.ToString("O"), requestViewModel);
 
-        var configuration = await _gameQuery
+        var configuration = await gameQuery
                 .GetSkywindTransferConfigurationAsync()
                 .ConfigureAwait(false);
 
         if (requestViewModel is not null &&
             configuration.MerchId.Equals(requestViewModel.MerchId)
             && configuration.MerchPwd.Equals(requestViewModel.MerchPwd)
-            && await _gameTokenClient
+            && await gameTokenClient
             .CheckAuthValidAsync(
                 auth: requestViewModel.Ticket,
                 cancellationToken: context.HttpContext.RequestAborted)
@@ -67,7 +55,7 @@ public class ValidateTicketAuthorizationFilter : IAsyncAuthorizationFilter
             return;
         }
 
-        _logger.LogWarning("LogOn:{logOn} Message:Auth Token verification failed. Info:RequestViewModel{requestViewModel}",
+        logger.LogWarning("LogOn:{logOn} Message:Auth Token verification failed. Info:RequestViewModel{requestViewModel}",
             DateTime.UtcNow.ToString("O"),
             requestViewModel);
 

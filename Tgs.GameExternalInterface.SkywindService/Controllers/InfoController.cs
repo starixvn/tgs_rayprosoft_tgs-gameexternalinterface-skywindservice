@@ -8,15 +8,9 @@ namespace Tgs.GameExternalInterface.SkywindService.Controllers;
 
 [Route("[controller]")]
 [ApiController]
-public class InfoController : ControllerBase
+public class InfoController(
+    IConfiguration configuration) : ControllerBase
 {
-    private readonly IConfiguration _configuration;
-
-    public InfoController(IConfiguration configuration)
-    {
-        _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-    }
-
     [HttpGet]
     public async Task<object> GetAsync([FromServices] IWebHostEnvironment _hostingEnvironment)
     {
@@ -24,7 +18,7 @@ public class InfoController : ControllerBase
         var hostEntry = await Dns.GetHostEntryAsync(hostName);
         var hostIp = Array.Find(hostEntry.AddressList,
             x => x.AddressFamily == AddressFamily.InterNetwork);
-        var gameExternalInterfaceSettingsOptions = _configuration.GetSection("GameExternalInterfaceSettings").Get<GameExternalInterfaceSettingsOptions>();
+        var gameExternalInterfaceSettingsOptions = configuration.GetSection("GameExternalInterfaceSettings").Get<GameExternalInterfaceSettingsOptions>();
 
         return new
         {
@@ -35,6 +29,8 @@ public class InfoController : ControllerBase
             OsVersion = $"{Environment.OSVersion}",
             Version = Assembly.GetExecutingAssembly().GetName().Version?.ToString(),
             ProcessCount = Environment.ProcessorCount,
+            ReleaseNamespace = configuration.GetValue<string>("RELEASE_NAMESPACE"),
+            PodIPAddress = configuration.GetValue<string>("POD_IP"),
             GameExternalInterfaceSettingsOptions = gameExternalInterfaceSettingsOptions,
         };
     }

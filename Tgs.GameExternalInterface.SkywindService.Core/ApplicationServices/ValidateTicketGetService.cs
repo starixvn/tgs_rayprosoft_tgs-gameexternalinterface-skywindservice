@@ -6,28 +6,19 @@ using Tgs.ServiceUtility;
 
 namespace Tgs.GameExternalInterface.SkywindService.Core.ApplicationServices;
 
-internal class ValidateTicketGetService : IGetService<ValidateTicketQuery, ValidateTicketResult>
+internal class ValidateTicketGetService(
+    ILogger<ValidateTicketGetService> logger,
+    IGameTokenClient gameTokenClient) : IGetService<ValidateTicketQuery, ValidateTicketResult>
 {
-    private readonly IGameTokenClient _gameTokenClient;
-    private readonly ILogger<ValidateTicketGetService> _logger;
-
-    public ValidateTicketGetService(
-        ILogger<ValidateTicketGetService> logger,
-        IGameTokenClient gameTokenClient)
-    {
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _gameTokenClient = gameTokenClient ?? throw new ArgumentNullException(nameof(gameTokenClient));
-    }
-
     public async ValueTask<ValidateTicketResult> GetAsync(ValidateTicketQuery query, CancellationToken cancellationToken = default)
     {
-        var gameAuthInfo = await _gameTokenClient.GetAuthInfoAsync(
+        var gameAuthInfo = await gameTokenClient.GetAuthInfoAsync(
             auth: query.Ticket,
             cancellationToken: cancellationToken).ConfigureAwait(false);
 
         if (gameAuthInfo is null)
         {
-            _logger.LogError("Authentication failed for this game({token})", query.Ticket);
+            logger.LogError("Authentication failed for this game({token})", query.Ticket);
             throw new PlayerNotFoundException();
         }
 
@@ -35,14 +26,14 @@ internal class ValidateTicketGetService : IGetService<ValidateTicketQuery, Valid
 
         if (info is null)
         {
-            _logger.LogError("The authentication information does not exist.({gameAuthInfo})", gameAuthInfo);
+            logger.LogError("The authentication information does not exist.({gameAuthInfo})", gameAuthInfo);
             throw new PlayerNotFoundException();
         }
 
         string sessionToken;
         try
         {
-            sessionToken = await _gameTokenClient
+            sessionToken = await gameTokenClient
                 .CreateTokenAsync(
                 playerCode: gameAuthInfo.PlayerCode,
                 cancellationToken: cancellationToken)
@@ -50,7 +41,7 @@ internal class ValidateTicketGetService : IGetService<ValidateTicketQuery, Valid
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "This failed to generate sessionToken.({ playerCode})", gameAuthInfo.PlayerCode);
+            logger.LogError(ex, "This failed to generate sessionToken.({ playerCode})", gameAuthInfo.PlayerCode);
             throw new PlayerNotFoundException();
         }
 

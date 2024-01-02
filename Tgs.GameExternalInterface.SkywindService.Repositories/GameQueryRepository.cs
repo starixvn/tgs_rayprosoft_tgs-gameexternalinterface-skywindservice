@@ -4,23 +4,15 @@ using Tgs.GameExternalInterface.SkywindService.Core;
 
 namespace Tgs.GameExternalInterface.SkywindService.Repositories;
 
-internal class GameQueryRepository : IGameQuery
+internal class GameQueryRepository(
+    IOptions<GameExternalInterfaceSettingsOptions> options,
+    IGameCommandClient client) : IGameQuery
 {
-    private readonly IGameCommandClient _client;
-    private readonly GameExternalInterfaceSettingsOptions _gameExternalInterfaceSettings;
-
-    public GameQueryRepository(
-        IOptions<GameExternalInterfaceSettingsOptions> options,
-        IGameCommandClient client
-        )
-    {
-        _gameExternalInterfaceSettings = options.Value;
-        _client = client ?? throw new ArgumentNullException(nameof(client));
-    }
+    private readonly GameExternalInterfaceSettingsOptions _gameExternalInterfaceSettings = options.Value;
 
     public async ValueTask<Guid> GetGameProviderIdAsync(
         CancellationToken cancellationToken = default)
-        => await _client
+        => await client
         .GameProviderGetGameProviderIdAsync(
             gameProviderCode: _gameExternalInterfaceSettings.GameProviderCode,
             cancellationToken: cancellationToken)
@@ -29,7 +21,7 @@ internal class GameQueryRepository : IGameQuery
 
     public async ValueTask<SkywindTransferConfiguration> GetSkywindTransferConfigurationAsync(
         CancellationToken cancellationToken = default)
-        => await _client
+        => await client
         .SettingGetConfigurationAsync<SkywindTransferConfiguration>(
             key: _gameExternalInterfaceSettings.GameProviderConfig,
             cancellationToken: cancellationToken)

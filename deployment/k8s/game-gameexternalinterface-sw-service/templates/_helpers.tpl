@@ -48,7 +48,6 @@ Selector labels
 {{- define "game-gameexternalinterface-sw-service.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "game-gameexternalinterface-sw-service.name" . }}
 app: {{ include "game-gameexternalinterface-sw-service.name" . }}
-app.kubernetes.io/instance: RELEASE-NAME
 tgs.kind: game
 tgs.game.kind: gameexternalinterface
 tgs.gameprovider.kind: sw

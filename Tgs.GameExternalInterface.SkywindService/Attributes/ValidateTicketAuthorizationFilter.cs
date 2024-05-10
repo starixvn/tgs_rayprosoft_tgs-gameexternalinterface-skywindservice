@@ -33,7 +33,7 @@ public class ValidateTicketAuthorizationFilter(
 
         request.EnableBuffering();
 
-        var requestViewModel = await request.ReadFromJsonAsync<ValidateTicketRequestViewModel>();
+        var requestViewModel = await request.ReadFromJsonAsync<ValidateTicketRequestViewModel>().ConfigureAwait(false);
 
         _ = request.Body.Seek(0, SeekOrigin.Begin);
 
